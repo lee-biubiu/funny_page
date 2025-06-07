@@ -141,6 +141,17 @@
     .dark-theme h1, .dark-theme p {
       color: #fff;
     }
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #43c6ac;
+      animation: confettiFall 2s linear;
+    }
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
   </style>
 </head>
 <body>
@@ -149,11 +160,45 @@
     <div></div>
     <div></div>
   </div>
-  <div class="theme-switch" onclick="toggleTheme()">🌓</div>
+  <style>
+    .warm-theme { background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%); }
+    .warm-theme .container { background: rgba(255, 240, 230, 0.85); }
+    .warm-theme h1 { color: #ff6b6b; }
+    .warm-theme p { color: #333; }
+  
+    .cool-theme { background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); }
+    .cool-theme .container { background: rgba(230, 245, 255, 0.85); }
+    .cool-theme h1 { color: #2196f3; }
+  
+    .theme-switch {
+      display: flex;
+      gap: 8px;
+      border-radius: 20px;
+      padding: 10px 15px;
+    }
+  </style>
+  
+  <!-- 移除重复的<body>标签，合并内容到主<body>中 -->
+  <div class="theme-switch" onclick="toggleTheme()">
+    🌞<span style="font-size:0.8em">主题</span>🌙
+  </div>
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      const themes = ['dark-theme', 'warm-theme', 'cool-theme'];
+      const current = themes.find(t => body.classList.contains(t));
+      const nextIndex = (themes.indexOf(current) + 1) % themes.length;
+      
+      body.classList.remove(...themes);
+      body.classList.add(themes[nextIndex]);
+    }
+  </script>
+
   <div class="container animate__animated animate__fadeIn">
     <h1>今日趣味</h1>
     <img id="random-img" src="https://source.unsplash.com/random/400x250" alt="随机图片" class="animate__animated animate__fadeIn">
     <p id="random-text" class="animate__animated animate__fadeIn">生活就像一盒巧克力，你永远不知道下一颗是什么味道。</p>
+    <p id="random-fact" class="animate__animated animate__fadeIn animate__delay-1s">✨ 趣味冷知识：考拉的指纹和人类指纹几乎一模一样</p>
     <button onclick="refreshContent()" class="animate__animated animate__pulse animate__infinite">换一批</button>
   </div>
   <script>
@@ -170,25 +215,32 @@
       '用心生活，世界会给你惊喜。'
     ];
 
+    const facts = [
+      '✨ 趣味冷知识：考拉的指纹和人类指纹几乎一模一样',
+      '✨ 冷知识：蜂蜜不会变质，考古学家曾在古埃及陵墓中发现3000年前的蜂蜜仍可食用',
+      '✨ 小知识：章鱼有3个心脏，2个负责给鳃供血，1个负责给全身供血',
+      '✨ 冷知识：北极熊的皮肤其实是黑色的，毛发是透明的空心管',
+      '✨ 趣味知识：蜗牛可以睡3年，遇到干旱会缩壳分泌黏液封口'
+    ];
+
     function refreshContent() {
       const container = document.querySelector('.container');
       const text = texts[Math.floor(Math.random() * texts.length)];
+      const fact = facts[Math.floor(Math.random() * facts.length)];  // 新增知识随机
       const img = document.getElementById('random-img');
       const textElement = document.getElementById('random-text');
-
-      // 添加淡出动画
+      const factElement = document.getElementById('random-fact');  // 新增知识元素
+  
       container.classList.add('animate__fadeOut');
       
       setTimeout(() => {
-        // 更新内容
         textElement.innerText = text;
+        factElement.innerText = fact;  // 更新知识内容
         img.src = `https://source.unsplash.com/random/400x250?sig=${Math.random()}`;
         
-        // 添加淡入动画
         container.classList.remove('animate__fadeOut');
         container.classList.add('animate__fadeIn');
         
-        // 移除动画类以便下次使用
         setTimeout(() => {
           container.classList.remove('animate__fadeIn');
         }, 1000);
@@ -200,4 +252,4 @@
     }
   </script>
 </body>
-</html> 
+</html>
