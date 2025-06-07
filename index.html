@@ -196,7 +196,7 @@
 
   <div class="container animate__animated animate__fadeIn">
     <h1>今日趣味</h1>
-    <img id="random-img" src="https://source.unsplash.com/random/400x250" alt="随机图片" class="animate__animated animate__fadeIn">
+    <img id="random-img" src="https://picsum.photos/400/250" alt="随机图片" class="animate__animated animate__fadeIn">
     <p id="random-text" class="animate__animated animate__fadeIn">生活就像一盒巧克力，你永远不知道下一颗是什么味道。</p>
     <p id="random-fact" class="animate__animated animate__fadeIn animate__delay-1s">✨ 趣味冷知识：考拉的指纹和人类指纹几乎一模一样</p>
     <button onclick="refreshContent()" class="animate__animated animate__pulse animate__infinite">换一批</button>
@@ -236,8 +236,8 @@
       setTimeout(() => {
         textElement.innerText = text;
         factElement.innerText = fact;  // 更新知识内容
-        img.src = `https://source.unsplash.com/random/400x250?sig=${Math.random()}`;
-        
+        img.src = `https://picsum.photos/400/250?random=${Math.random()}`;
+       
         container.classList.remove('animate__fadeOut');
         container.classList.add('animate__fadeIn');
         
